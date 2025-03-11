@@ -8,8 +8,8 @@
 
 /* header */
 img {
-    max-width: 100px;
-    max-height: 150px;
+    max-width: 75px;
+    max-height: 75px;
     padding: 0px;
 }
 
@@ -76,6 +76,8 @@ header {
 .nav__links li, a:hover{
     color: #A678BF;
 }
+
+
 
 /* home page */
 
@@ -207,7 +209,6 @@ span{
 
 /*  adjustments for smaller screen devices like phones */
 
-
 @media screen and (max-width: 768px) {
     .home {
         flex-direction: column; 
@@ -322,7 +323,7 @@ span{
 }
 
 .assignment-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-7px);
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
 }
 
