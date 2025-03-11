@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -7,14 +6,15 @@
     background-color: #051b29;
 }
 
+/* header */
 img {
-    max-width: 100px;
-    max-height: 150px;
+    max-width: 75px;
+    max-height: 75px;
     padding: 0px;
 }
 
 h1 {
-    font-family: "Quantico", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 32px;
     padding: 0px;
@@ -24,30 +24,51 @@ h1 {
 li, a {
     font-family: "Geo", sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 18px;
     color: #edf0f1;
     text-decoration: none;
 }
 
+header *{
+    background-color: #0d2a3a;
+}
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 10%;
+    padding: 15px 10%;
+    position: sticky; 
+    top: 0; 
+    width: 100%; 
+    background-color: #0d2a3a; 
+    z-index: 1000; 
 }
 
 .logo{
     cursor: pointer;
+    height: auto;
+    transition:0.5s ease;
+}
+.logo:hover{
+    transform:scale(1.1,1.1);
 }
 .nav__links {
+    display: flex;
     list-style: none;
 }
+
 .nav__links li{
     display: inline-block; /* side by side */
     padding: 0px 10px;
 
 }
+.nav__links li{
+    transition: all 0.3s ease;
+}
 
+.nav__links li:hover{
+    transform: scale(1.1,1.1);
+}
 .nav__links li, a{
     transition: all 0.3s ease 0s;
 }
@@ -57,52 +78,323 @@ header {
 }
 
 
-/*
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+
+/* home page */
+
+.home{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #051b29;
 }
 
-nav ul li {
-    margin: 0 15px;
+.home .home-content h2{
+    position: relative;
+    font-family: "Poppins", sans-serif;
+    color: #edf0f1;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height:1.3;
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+span{
+    color:#A678BF;
 }
 
-main {
-    flex: 1; # Pushes footer to the bottom 
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
+.home-content p{
+    font-size: 1rem;
+    padding-top: 1rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 1rem;
+    font-weight: 300;
 }
 
-.intro {
-    text-align: center;
+.home-img{
+    border-radius: 50%;
 }
 
-footer {
-    background-color: #111;
-    color: white;
-    text-align: center;
-    padding: 15px;
+.home-img img{
+    max-width: 600px;
+    max-height: 800px;
+    position:relative;
+    width:32vh;
+    border-radius: 15%;
+    cursor:pointer;
+    transition:0.2s linear;
+    padding: 2rem;
+}
+
+.home-img img:hover{
+    font-size:1.8rem;
+    font-weight: 500;
+}
+
+.typing-text{
+    font-size: 34px;
+    font-weight: 600;
+    min-width: 280px;
+}
+
+.typing-text span{
     position: relative;
 }
 
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    nav ul li {
-        margin: 5px 0;
+.typing-text span::before{
+    content: "CSCB20!";
+    color:#A678BF;
+    animation: words 20s infinite;
+}
+
+.typing-text span::after{
+    content:"";
+    background-color: #051b29;
+    position: absolute;
+    width: calc(100%+8px);
+    height: 100%;
+    border-left: 2px solid #051b29;
+    right:-8;
+    animation: cursor 0.6s infinite;
+}
+
+@keyframes cursor{
+    to{
+        border-left: 3px solid #A678BF;
     }
 }
 
-*/
+
+.course-info *{
+    background-color: transparent;
+}
+.course-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #051b29;
+    border-top: 2px solid #A678BF;
+}
+
+.course-info div {
+    background-color: #0d2a3a;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+    min-width: 250px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.course-info div:hover {
+    transform: scale(1.05);
+}
+
+.course-info h3 {
+    font-family: "Poppins", sans-serif;
+    color: #A678BF;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.course-info p {
+    font-family: "Poppins", sans-serif;
+    color: #edf0f1;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/*  adjustments for smaller screen devices like phones */
+
+@media screen and (max-width: 768px) {
+    .home {
+        flex-direction: column; 
+        align-items: center;     
+    }
+
+    .home-img {
+        width: 100%;  
+        text-align: center;
+    }
+
+    .home-content {
+        width: 90%;  
+        margin-top: 1rem;  
+        text-align: center; 
+    }
+
+    .typing-text {
+        font-size: 1.5rem; 
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .home-content p {
+        font-size: 1rem;  
+    }
+
+    .course-info {
+        flex-direction: column; 
+        align-items: center;     
+        gap: 1.5rem;
+    }
+
+    .course-info div {
+        width: 100%;  
+    }
+}
+
+/* assignments */
+
+/* Assignments Section */
+
+
+.assignments {
+    text-align: center;
+    padding: 2rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+}
+
+.assignments h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #A678BF;
+}
+
+.assignment-container *{
+    background-color: transparent;
+}
+
+.assignment-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.assignment-card {
+    background-color: #0b2e44;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 60%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .assignment-card {
+        width: 90%; 
+    }
+}
+
+.assignment-card h3 {
+    font-size: 1.5rem;
+    color: #A678BF;
+    margin-bottom: 0.5rem;
+}
+
+.assignment-card p {
+    font-size: 1rem;
+    color: #edf0f1;
+    margin-bottom: 1rem;
+}
+
+.assignment-card a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #A678BF;
+    color: #051b29;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.assignment-card a:hover {
+    background-color: #8b5d9e;
+}
+
+.assignment-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* footer */
+
+footer *{
+    background-color: transparent;
+}
+footer {
+    background-color: #edf0f1;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    width: 100%;
+}
+
+.footer-content{
+    background-color: #edf0f1;
+    padding:20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p{
+    color:#051b29;
+    font-family: "Poppins", sans-serif;
+    padding: 0.5rem;
+}
+
+.footer-content li{
+    transition: all 0.3s ease;
+    list-style: none;
+}
+.footer-content li:hover{
+    transform: scale(1.05,1.05);
+}
+
+.footer-content a{
+    color:#051b29;
+    font-family: "Geo", sans-serif;
+}
+
+.footer-content a:hover{
+    color: #A678BF;
+}
+
+@media screen and (max-width: 768px) {
+    /* Header adjustments */
+    header {
+        padding: 10px 5%;
+    }
+
+    .nav__links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Assignment card adjustments */
+    .assignment-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .assignment-card {
+        width: 90%; /* Make cards stack vertically */
+    }
+
+    /* Footer adjustments */
+    footer {
+        padding: 15px 10%;
+    }
+}
