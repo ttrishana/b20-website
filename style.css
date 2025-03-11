@@ -24,7 +24,7 @@ h1 {
 li, a {
     font-family: "Geo", sans-serif;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 18px;
     color: #edf0f1;
     text-decoration: none;
 }
@@ -46,12 +46,14 @@ header {
 
 .logo{
     cursor: pointer;
+    height: auto;
     transition:0.5s ease;
 }
 .logo:hover{
     transform:scale(1.1,1.1);
 }
 .nav__links {
+    display: flex;
     list-style: none;
 }
 
@@ -79,7 +81,7 @@ header {
 
 .home{
     display:flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 2rem;
     padding: 2rem;
@@ -203,15 +205,45 @@ span{
     line-height: 1.5;
 }
 
-/* mobile */
+/*  adjustments for smaller screen devices like phones */
+
+
 @media screen and (max-width: 768px) {
+    .home {
+        flex-direction: column; 
+        align-items: center;     
+    }
+
+    .home-img {
+        width: 100%;  
+        text-align: center;
+    }
+
+    .home-content {
+        width: 90%;  
+        margin-top: 1rem;  
+        text-align: center; 
+    }
+
+    .typing-text {
+        font-size: 1.5rem; 
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .home-content p {
+        font-size: 1rem;  
+    }
+
     .course-info {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: column; 
+        align-items: center;     
+        gap: 1.5rem;
     }
 
     .course-info div {
-        width: 90%;
+        width: 100%;  
     }
 }
 
@@ -251,9 +283,15 @@ span{
     background-color: #0b2e44;
     padding: 1.5rem;
     border-radius: 10px;
-    width: 1000px;
+    width: 60%;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .assignment-card {
+        width: 90%; 
+    }
 }
 
 .assignment-card h3 {
@@ -299,12 +337,15 @@ footer {
     text-align: center;
     padding: 15px;
     position: relative;
+    width: 100%;
 }
 
 .footer-content{
     background-color: #edf0f1;
     padding:20px;
     text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .footer-content p{
@@ -330,4 +371,29 @@ footer {
     color: #A678BF;
 }
 
+@media screen and (max-width: 768px) {
+    /* Header adjustments */
+    header {
+        padding: 10px 5%;
+    }
 
+    .nav__links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Assignment card adjustments */
+    .assignment-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .assignment-card {
+        width: 90%; /* Make cards stack vertically */
+    }
+
+    /* Footer adjustments */
+    footer {
+        padding: 15px 10%;
+    }
+}
