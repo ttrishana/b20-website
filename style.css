@@ -417,6 +417,8 @@ button {
     }
 }
 
+
+
 /* assignments */
 .assignments {
     text-align: center;
@@ -563,4 +565,107 @@ footer {
     footer {
         padding: 15px 10%;
     }
+}
+
+label {
+    font-family: "Geo", sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+    color: #A678BF;  /* White text for dark mode */
+    cursor: pointer;
+}
+
+#color-mode{
+    display: none;
+    margin-left: 0;
+}
+
+#color-mode:checked ~ .home {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .home .home-content{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home h2{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home span{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home p{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home img{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home .course-info div{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home .course-info{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home .home-img{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .syllabus {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .syllabus h2{
+    background: #edf0f1;
+    color: #A678BF;
+}
+
+#color-mode:checked ~ .syllabus * {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .assignments {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .assignments h2{
+    background: #edf0f1;
+    color: #A678BF;
+}
+
+#color-mode:checked ~ .assignments *{
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .feedback {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .feedback h2{
+    background: #edf0f1;
+    color: #A678BF;
+}
+
+#color-mode:checked ~ .feedback *{
+    background: #edf0f1;
+    color: black;
 }
