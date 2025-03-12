@@ -270,8 +270,154 @@ span{
     }
 }
 
-/* assignments */
+@media screen and (max-width: 768px) {
+    .syllabus-container embed {
+        height: 40vh; 
+    }
+}
 
+@media screen and (max-width: 480px) {
+    .syllabus-container embed {
+        height: 40vh; 
+    }
+}
+
+/* Syllabus */
+.syllabus {
+    text-align: center;
+    padding: 2rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+}
+
+.syllabus h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #A678BF;
+}
+
+.syllabus-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.syllabus-container embed{
+    width: 75%; 
+    height: 90vh;
+    border: none;
+}
+
+/* labs */
+
+.feedback {
+    text-align: center;
+    padding: 2rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+}
+
+.feedback h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #A678BF;
+}
+
+.feedback-container *{
+    background-color: transparent;
+}
+
+.feedback-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.feedback-card {
+    background-color: #0b2e44;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 60%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .feedback-card {
+        width: 90%; 
+    }
+}
+
+.feedback-card h3 {
+    font-size: 1.5rem;
+    color: #A678BF;
+    margin-bottom: 0.5rem;
+}
+
+.feedback-card p {
+    font-size: 1rem;
+    color: #edf0f1;
+    margin-bottom: 1rem;
+}
+
+.feedback-card a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #A678BF;
+    color: #051b29;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+input, textarea { 
+    width: 100%;
+    border: 1px solid #A678BF;
+    border-radius: 1rem;
+    color: #edf0f1;
+    padding: 1rem;
+}
+
+input:focus, textarea:focus {
+    border-color: #9358b3;
+    outline: none;
+}
+
+button {
+    color: #edf0f1;
+    border: 1px solid #A678BF;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.feedback-form button:hover {
+    background-color: #8b5d9e;
+}
+
+@media screen and (max-width: 480px) {
+    .feedback-form {
+        padding: 1rem;
+    }
+}
+
+/* assignments */
 .assignments {
     text-align: center;
     padding: 2rem;
