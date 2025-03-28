@@ -1,0 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Geo:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #051b29;
+}
+
+
+/* header */
+
+/* home icon */
+img {
+    max-width: 75px;
+    max-height: 75px;
+    padding: 0px;
+}
+
+/*  */
+h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    padding: 0px;
+    color: #edf0f1;
+    text-decoration: none;
+}
+
+/* nav items */
+li, a {
+    font-family: "Geo", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #edf0f1;
+    text-decoration: none;
+}
+
+/* header container */
+header *{
+    background-color: #0d2a3a;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10%;
+    position: sticky; 
+    top: 0; 
+    width: 100%; 
+    background-color: #0d2a3a; 
+    z-index: 1000; 
+}
+
+/* home logo */
+.logo{
+    cursor: pointer;
+    height: auto;
+    transition:0.5s ease;
+}
+.logo:hover{
+    transform:scale(1.1,1.1);
+}
+
+/* nav animations */
+.nav__links {
+    display: flex;
+    list-style: none;
+}
+
+.nav__links li{
+    display: inline-block; /* side by side */
+    padding: 0px 10px;
+
+}
+.nav__links li{
+    transition: all 0.3s ease;
+}
+
+.nav__links li:hover{
+    transform: scale(1.1,1.1);
+}
+.nav__links li, a{
+    transition: all 0.3s ease 0s;
+}
+
+.nav__links li, a:hover{
+    color: #A678BF;
+}
+
+/* nav dropdown */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    width: 150px;
+    text-align: left;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    color: #edf0f1;
+    text-decoration: none;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+.dropdown-menu a:hover {
+    background-color: #A678BF;
+}
+
+/* home page */
+
+.home{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #051b29;
+}
+
+/* home welcome */
+.home .home-content h2{
+    position: relative;
+    font-family: "Poppins", sans-serif;
+    color: #edf0f1;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height:1.3;
+}
+
+span{
+    color:#A678BF;
+}
+
+/* home description */
+.home-content p{
+    font-size: 1rem;
+    padding-top: 1rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+/* home description */
+.home-img{
+    border-radius: 50%;
+}
+
+/* purva */
+.home-img img{
+    max-width: 600px;
+    max-height: 800px;
+    position:relative;
+    width:32vh;
+    border-radius: 15%;
+    cursor:pointer;
+    transition:0.2s linear;
+    padding: 2rem;
+}
+
+.home-img img:hover{
+    font-size:1.8rem;
+    font-weight: 500;
+}
+
+/* cursor ting */
+.typing-text{
+    font-size: 34px;
+    font-weight: 600;
+    min-width: 280px;
+}
+
+.typing-text span{
+    position: relative;
+}
+
+.typing-text span::before{
+    content: "CSCB20!";
+    color:#A678BF;
+    animation: words 20s infinite;
+}
+
+.typing-text span::after{
+    content:"";
+    background-color: #051b29;
+    position: absolute;
+    width: calc(100%+8px);
+    height: 100%;
+    border-left: 2px solid #051b29;
+    right:-8;
+    animation: cursor 0.6s infinite;
+}
+
+@keyframes cursor{
+    to{
+        border-left: 3px solid #A678BF;
+    }
+}
+
+/* course details */
+.course-info *{
+    background-color: transparent;
+}
+
+/* course details container */
+.course-info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: #051b29;
+    border-top: 2px solid #A678BF;
+}
+
+/* course details card */
+.course-info div {
+    background-color: #0d2a3a;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+    min-width: 250px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.course-info div:hover {
+    transform: scale(1.05);
+}
+
+/* course details text */
+
+.course-info h3 {
+    font-family: "Poppins", sans-serif;
+    color: #A678BF;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.course-info p {
+    font-family: "Poppins", sans-serif;
+    color: #edf0f1;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/*  adjustments for smaller screen devices like phones */
+
+@media screen and (max-width: 768px) {
+    .home {
+        flex-direction: column; 
+        align-items: center;     
+    }
+
+    .home-img {
+        width: 100%;  
+        text-align: center;
+    }
+
+    .home-content {
+        width: 90%;  
+        margin-top: 1rem;  
+        text-align: center; 
+    }
+
+    .typing-text {
+        font-size: 1.5rem; 
+    }
+}
+
+
+@media screen and (max-width: 480px) {
+    .home-content p {
+        font-size: 1rem;  
+    }
+
+    .course-info {
+        flex-direction: column; 
+        align-items: center;     
+        gap: 1.5rem;
+    }
+
+    .course-info div {
+        width: 100%;  
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .syllabus-container embed {
+        height: 40vh; 
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .syllabus-container embed {
+        height: 40vh; 
+    }
+}
+
+/* Syllabus */
+.syllabus {
+    text-align: center;
+    padding: 2rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+}
+
+.syllabus h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #A678BF;
+}
+
+.syllabus-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.syllabus-container embed{
+    width: 75%; 
+    height: 90vh;
+    border: none;
+}
+
+/* labs */
+
+.feedback {
+    text-align: center;
+    padding: 2rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+}
+
+.feedback h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #A678BF;
+}
+
+.feedback-container *{
+    background-color: transparent;
+}
+
+.feedback-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.feedback-card {
+    background-color: #0b2e44;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 60%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .feedback-card {
+        width: 90%; 
+    }
+}
+
+.feedback-card h3 {
+    font-size: 1.5rem;
+    color: #A678BF;
+    margin-bottom: 0.5rem;
+}
+
+.feedback-card p {
+    font-size: 1rem;
+    color: #edf0f1;
+    margin-bottom: 1rem;
+}
+
+.feedback-card a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #A678BF;
+    color: #051b29;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+input, textarea { 
+    width: 100%;
+    border: 1px solid #A678BF;
+    border-radius: 1rem;
+    color: #edf0f1;
+    padding: 1rem;
+}
+
+input:focus, textarea:focus {
+    border-color: #9358b3;
+    outline: none;
+}
+
+button {
+    color: #edf0f1;
+    border: 1px solid #A678BF;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.feedback-form button:hover {
+    background-color: #8b5d9e;
+}
+
+@media screen and (max-width: 480px) {
+    .feedback-form {
+        padding: 1rem;
+    }
+}
+
+
+
+/* assignments */
+.assignments {
+    text-align: center;
+    padding: 2rem;
+    color: #edf0f1;
+    font-family: "Poppins", sans-serif;
+}
+
+/* title  */
+
+.assignments h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #A678BF;
+}
+
+.assignment-container *{
+    background-color: transparent;
+}
+
+.assignment-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.assignment-card {
+    background-color: #0b2e44;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 60%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .assignment-card {
+        width: 90%; 
+    }
+}
+
+.assignment-card h3 {
+    font-size: 1.5rem;
+    color: #A678BF;
+    margin-bottom: 0.5rem;
+}
+
+.assignment-card p {
+    font-size: 1rem;
+    color: #edf0f1;
+    margin-bottom: 1rem;
+}
+
+.assignment-card a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #A678BF;
+    color: #051b29;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.assignment-card a:hover {
+    background-color: #8b5d9e;
+}
+
+.assignment-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* footer */
+
+footer *{
+    background-color: transparent;
+}
+footer {
+    background-color: #edf0f1;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    width: 100%;
+}
+
+.footer-content{
+    background-color: #edf0f1;
+    padding:20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p{
+    color:#051b29;
+    font-family: "Poppins", sans-serif;
+    padding: 0.5rem;
+}
+
+.footer-content li{
+    transition: all 0.3s ease;
+    list-style: none;
+}
+.footer-content li:hover{
+    transform: scale(1.05,1.05);
+}
+
+.footer-content a{
+    color:#051b29;
+    font-family: "Geo", sans-serif;
+}
+
+.footer-content a:hover{
+    color: #A678BF;
+}
+
+@media screen and (max-width: 768px) {
+    /* Header adjustments */
+    header {
+        padding: 10px 5%;
+    }
+
+    .nav__links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Assignment card adjustments */
+    .assignment-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .assignment-card {
+        width: 90%; /* Make cards stack vertically */
+    }
+
+    /* Footer adjustments */
+    footer {
+        padding: 15px 10%;
+    }
+}
+
+label {
+    font-family: "Geo", sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+    color: #A678BF;  /* White text for dark mode */
+    cursor: pointer;
+}
+
+#color-mode{
+    display: none;
+    margin-left: 0;
+}
+
+#color-mode:checked ~ .home {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .home .home-content{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home h2{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home span{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home p{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home img{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home .course-info div{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home .course-info{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .home .home-img{
+    background: #edf0f1;  
+    color: black; 
+}
+
+#color-mode:checked ~ .syllabus {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .syllabus h2{
+    background: #edf0f1;
+    color: #A678BF;
+}
+
+#color-mode:checked ~ .syllabus * {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .assignments {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .assignments h2{
+    background: #edf0f1;
+    color: #A678BF;
+}
+
+#color-mode:checked ~ .assignments *{
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .feedback {
+    background: #edf0f1;
+    color: black;
+}
+
+#color-mode:checked ~ .feedback h2{
+    background: #edf0f1;
+    color: #A678BF;
+}
+
+#color-mode:checked ~ .feedback *{
+    background: #edf0f1;
+    color: black;
+}
