@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Grades</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <section class="grades-table">
+    <h1>Remark Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Assignment</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for remark in remarks %}
+            <tr>
+                <td>{{ remark.student.username }}</td>
+                <td>{{ remark.a_name }}</td>
+                <td>{{ remark.reason }}</td>
+                <td id="status-{{ remark.r_id }}">{{ remark.status }}</td>
+                <td>
+                    <button onclick="updateRemarkStatus('{{ remark.r_id }}', 'Approved')">Approve</button>
+                    <button class="red-btn" onclick="updateRemarkStatus('{{ remark.r_id }}', 'Rejected')">Reject</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('view_grades') }}" class="std-btn">Back to Grades</a>
+    </section>
+
+    <script>
+    function updateRemarkStatus(remarkId, newStatus) {
+        fetch('/update_remark_status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ remark_id: remarkId, new_status: newStatus })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById(`status-${remarkId}`).innerText = newStatus;
+                alert("Remark status updated!");
+            } else {
+                alert("Failed to update remark status.");
+            }
+        });
+    }
+    </script>
+
+    
+        
+</body>
+</html>
+

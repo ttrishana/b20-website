@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Grades</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Student Grades</h1>
+    </header>
+
+    
+    <section class="grades-table">
+        <a href="{{ url_for('remark_requests') }}" class="std-btn">View Remark Requests</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Assignment</th>
+                    <th>Grade (%)</th>
+                    <th>Update Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for grade in grades %}
+                <tr>
+                    <td>{{ grade.student.username }}</td>
+                    <td>{{ grade.a_name }}</td>
+                    <td id="grade-{{ grade.u_id }}-{{ grade.a_name }}">{{ grade.percent }}</td>
+                    <td>
+                        <input type="number" id="new-grade-{{ grade.u_id }}-{{ grade.a_name }}" placeholder="Enter new mark">
+                        <button onclick="updateGrade('{{ grade.u_id }}', '{{ grade.a_name }}')">Update</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('index') }}" class="std-btn">Back to Dashboard</a>
+    </section>
+
+    <script>
+    function updateGrade(studentId, assignment) {
+        let newGrade = document.getElementById(`new-grade-${studentId}-${assignment}`).value;
+
+        fetch('/update_grade', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ student_id: studentId, assignment: assignment, new_grade: newGrade })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById(`grade-${studentId}-${assignment}`).innerText = newGrade;
+                alert("Marks updated successfully!");
+            } else {
+                alert("Failed to update marks.");
+            }
+        });
+    }
+    </script>
+
+    
+        
+</body>
+</html>

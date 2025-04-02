@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Grades</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>{{ user.username }}'s Grades</h1>
+    </header>
+
+    <section class="grades-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Assignment</th>
+                    <th>Grade (%)</th>
+                    <th>Remark Status</th>
+                    <th>Request Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for grade, status in grades %}
+                <tr>
+                    <td>{{ grade.a_name }}</td>
+                    <td>{{ grade.percent }}</td>
+                    <td id="status-{{ grade.a_name }}">{{ status if status else 'None' }}</td>
+                    <td>
+                        <button onclick="showRemarkBox('{{ grade.a_name }}')">Request Remark</button>
+                        <div id="remark-box-{{ grade.a_name }}" class="remark-box" style="display: none;">
+                            <input type="text" id="remark-reason-{{ grade.a_name }}" placeholder="Enter reason">
+                            <button onclick="submitRemark('{{ grade.a_name }}')">Submit</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('index') }}" class="std-btn">Back to Dashboard</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>Site design by Trishana and Hong Yu</p>
+            <li><a href="https://web.cs.toronto.edu/">Faculty of Computer Science @ UofT</a></li>
+        </div>
+        
+    </footer>  
+    
+    <script>
+        function showRemarkBox(a_name) {
+            document.getElementById(`remark-box-${a_name}`).style.display = 'block';
+        }
+        
+        function submitRemark(a_name) {
+            let reason = document.getElementById(`remark-reason-${a_name}`).value;
+            if (!reason.trim()) {
+                alert("Please enter a reason before submitting.");
+                return;
+            }
+        
+            fetch('/submit_remark', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ a_name: a_name, reason: reason })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById(`status-${a_name}`).innerText = "Pending";
+        
+                    // Hide the remark box and button
+                    document.getElementById(`remark-box-${a_name}`).style.display = 'none';
+        
+                    // Show confirmation message
+                    alert("Remark request submitted successfully!");
+                } else {
+                    alert("Failed to submit remark. Try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+        </script>
+        
+</body>
+</html>

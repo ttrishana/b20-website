@@ -35,9 +35,25 @@
                 <li><a href="https://markus2.utsc.utoronto.ca">Markus</a></li>
                 <li><a href="feedback.html">Feedback</a></li>
                 <li><a href="team.html">Course Team</a></li>
+
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+                
             </ul>
         </nav>
     </header>
+
+    <section class="welcome">
+        <div class="welcome-content">
+            {% if user.accType == 'Student' %}
+            <h2>Welcome {{ user.username }}, click below to see your current grades.</h2>
+            <a href="{{ url_for('view_grades') }}" class="std-btn">View My Grades</a>
+            {% else %}
+            <h2>Welcome Instructor {{ user.username }}, click here to see all the grades of your class.</h2>
+            <a href="{{ url_for('instructor_grades') }}" class="std-btn">View All Grades</a>
+            {% endif %}
+        </div>
+        
+    </section>
 
     <section class="home">
         <div class="home-img">

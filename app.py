@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Enum
 from flask_bcrypt import Bcrypt
 from datetime import timedelta
+from flask import jsonify 
 
 app = Flask(__name__)    
 
@@ -44,10 +45,15 @@ def login():
                 flash('Please check your login details and try again.', 'Error')
                 return render_template('login.html')
             
-            session['name'] = user.u_id
+            session['user_id'] = user.u_id
             session.permanent = True
             return redirect('index.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out.', 'Success')
+    return redirect('login.html')
 
 def addUser(details):
     user = Users(username=details[0], email=details[1], password=details[2], accType=details[3])
@@ -56,7 +62,12 @@ def addUser(details):
 
 @app.route('/index.html')
 def index():
-    return render_template('index.html')
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.', 'error')
+        return redirect(('login.html'))
+
+    user = Users.query.get(session['user_id'])
+    return render_template('index.html', user=user)
 
 @app.route('/syllabus.html')
 def syllabus():
@@ -86,13 +97,134 @@ def feedback():
 def team():
     return render_template('team.html')
 
+@app.route('/grades')
+def view_grades():
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.', 'error')
+        return redirect('login.html')
+
+    user = Users.query.get(session['user_id'])
+
+    if user.accType != 'Student':
+        flash('Only students can view grades.', 'error')
+        return redirect('index.html')
+
+    grades = db.session.query(Grades, Remark.status).outerjoin(Remark, 
+              (Grades.u_id == Remark.u_id) & (Grades.a_name == Remark.a_name)
+          ).filter(Grades.u_id == user.u_id).all()
+
+    return render_template('grades.html', user=user, grades=grades)
+
+@app.route('/submit_remark', methods=['POST'])
+def submit_remark():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in'}), 403
+
+    data = request.get_json()
+    a_name = data.get('a_name')
+    reason = data.get('reason')
+
+    user_id = session['user_id']
+
+    # Check if a remark already exists for this assignment
+    remark_exists = Remark.query.filter_by(u_id=user_id, a_name=a_name).first()
+    if remark_exists:
+        return jsonify({'success': False, 'message': 'Remark already requested'}), 400
+
+    # Insert new remark request
+    new_remark = Remark(u_id=user_id, a_name=a_name, status='Pending', reason=reason)
+    db.session.add(new_remark)
+    db.session.commit()
+
+    return jsonify({"success": "Remark request submitted successfully!"})
+
+@app.route('/instructor_grades', methods=['GET', 'POST'])
+def instructor_grades():
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.', 'error')
+        return redirect('login.html')
+
+    user = Users.query.get(session['user_id'])
+
+    if user.accType != 'Instructor':
+        flash('Only instructors can access this page.', 'error')
+        return redirect('index.html')
+
+    students = Users.query.filter_by(accType='Student').all()
+    grades = Grades.query.all()
+
+    return render_template('grades_instructor.html', user=user, students=students, grades=grades)
+
+@app.route('/update_grade', methods=['POST'])
+def update_grade():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in'}), 403
+
+    user = Users.query.get(session['user_id'])
+    if user.accType != 'Instructor':
+        return jsonify({'success': False, 'message': 'Unauthorized access'}), 403
+
+    data = request.get_json()
+    student_id = data.get('student_id')
+    assignment = data.get('assignment')
+    new_grade = data.get('new_grade')
+
+    grade_entry = Grades.query.filter_by(u_id=student_id, a_name=assignment).first()
+    
+    if grade_entry:
+        grade_entry.percent = new_grade  # Update existing grade
+    else:
+        new_grade_entry = Grades(u_id=student_id, a_name=assignment, percent=new_grade)
+        db.session.add(new_grade_entry)  # Insert new grade
+
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Marks updated successfully!'})
+
+@app.route('/remark_requests', methods=['GET'])
+def remark_requests():
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.', 'error')
+        return redirect('login.html')
+
+    user = Users.query.get(session['user_id'])
+    if user.accType != 'Instructor':
+        flash('Only instructors can access this page.', 'error')
+        return redirect('index.html')
+
+    remarks = Remark.query.all()
+
+    return render_template('remark_requests.html', user=user, remarks=remarks)
+
+@app.route('/update_remark_status', methods=['POST'])
+def update_remark_status():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in'}), 403
+
+    user = Users.query.get(session['user_id'])
+    if user.accType != 'Instructor':
+        return jsonify({'success': False, 'message': 'Unauthorized access'}), 403
+
+    data = request.get_json()
+    remark_id = data.get('remark_id')
+    new_status = data.get('new_status')
+
+    remark = Remark.query.get(remark_id)
+    if remark:
+        remark.status = new_status
+        db.session.commit()
+        return jsonify({'success': True, 'message': 'Remark status updated!'})
+    
+    return jsonify({'success': False, 'message': 'Remark not found'})
+
+
 class Users(db.Model):
     __tablename__ = 'Users'
     u_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(20), unique=True, nullable = False)
     password = db.Column(db.String(100), nullable = False)
-    accType = db.Column(Enum('Student', 'Teacher', name='accTypeEnum'), nullable = False)
+    accType = db.Column(Enum('Student', 'Instructor', name='accTypeEnum'), nullable = False)
     
     grades = db.relationship('Grades', backref='student', lazy=True)
     remarks = db.relationship('Remark', backref='student', lazy=True)
@@ -126,25 +258,5 @@ class Remark(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        '''if not Users.query.first():
-            person1 = Users(username='student1', email='student@test.com', password='pass', accType='Student')
-            person2 = Users(username='teacher1', email='teacher@test.com', password='passer', accType='Teacher')
-            db.session.add_all([person1, person2])
-            db.session.commit()
-
-        if not Grades.query.first():
-            grade1 = Grades(u_id=1, a_name="test1", percent=94.0)
-            db.session.add(grade1)
-            db.session.commit()
-
-        if not Feedback.query.first():
-            feedback1 = Feedback(u_id=2, teaching_feedback='good', teaching_recommendations='better', lab_feedback='easy', lab_recommendations='worth more') 
-            db.session.add(feedback1)
-            db.session.commit()    
-
-        if not Remark.query.first():
-            remark1 = Remark(u_id=1, status='rejected', a_name='final', reason='sick') 
-            db.session.add(remark1)
-            db.session.commit()'''
         db.session.close()
     app.run(debug=True)
