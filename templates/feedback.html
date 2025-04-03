@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignments - CSCB20</title>
+    <title>Feedback - CSCB20</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -35,43 +35,90 @@
                 <li><a href="https://markus2.utsc.utoronto.ca">Markus</a></li>
                 <li><a href="feedback.html">Feedback</a></li>
                 <li><a href="team.html">Course Team</a></li>
+
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+                
             </ul>
         </nav>
     </header>
-
+    
     <section class="feedback">
         <h2>Feedback</h2>
         <p>Here you'll be able to submit anonymous feedback for CSCB20.</p>
-        
+
         <div class="feedback-container">
             <div class="feedback-card">
-                <form class="feedback-form">
+                <form id="feedbackForm">
                     <div class="form-group">
-                        <label for="name">Name (Optional):</label>
-                        <input type="text" id="name" name="name">
+                        <label for="instructor">Instructor:</label>
+                        <select id="instructor" name="instructor">
+                            <!-- Options will be populated by JS -->
+                            {% for instructor in instructors %}
+                                <option value="{{ instructor.u_id }}">{{ instructor.username }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+
                     <div class="form-group">
-                        <label for="email">Email (Optional):</label>
-                        <input type="text" id="email" name="email">
+                        <label for="teaching_feedback">What do you like about the instructor’s teaching?</label>
+                        <textarea id="teaching_feedback" name="teaching_feedback" required></textarea>
                     </div>
+
                     <div class="form-group">
-                        <label for="message">Your Message:</label>
-                        <textarea type="text" id="message" name="message"></textarea>
+                        <label for="teaching_recommendations">What do you recommend the instructor to do to improve their teaching?</label>
+                        <textarea id="teaching_recommendations" name="teaching_recommendations" required></textarea>
                     </div>
-        
-                    <button type="submit"> Submit Feedback </button>
+
+                    <div class="form-group">
+                        <label for="lab_feedback">What do you like about the labs?</label>
+                        <textarea id="lab_feedback" name="lab_feedback" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lab_recommendations">What do you recommend the lab instructors to do to improve their lab teaching?</label>
+                        <textarea id="lab_recommendations" name="lab_recommendations" required></textarea>
+                    </div>
+
+                    <button type="submit">Submit Feedback</button>
                 </form>
+                <p id="successMessage" style="color: green; display: none;">Your feedback has been submitted successfully!</p>
             </div>
         </div>
     </section>
-    
-        <footer>
-            <div class="footer-content">
-                <p>Site design by Trishana and Hong Yu</p>
-                <li><a href="https://web.cs.toronto.edu/">Faculty of Computer Science @ UofT</a></li>
-            </div>
-            
-        </footer>    
+
+    <footer>
+        <div class="footer-content">
+            <p>Site design by Trishana and Hong Yu</p>
+            <li><a href="https://web.cs.toronto.edu/">Faculty of Computer Science @ UofT</a></li>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            let formData = new FormData(this);
+            fetch('/submit_feedback', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show the success message
+                    document.getElementById("successMessage").style.display = "block";
+                    // Optionally, you can reset the form
+                    document.getElementById("feedbackForm").reset();
+                } else {
+                    // Handle error case
+                    alert("Error submitting feedback: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 
 </body>
 </html>

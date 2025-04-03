@@ -4,6 +4,8 @@ from sqlalchemy import Enum
 from flask_bcrypt import Bcrypt
 from datetime import timedelta
 from flask import jsonify 
+from flask_migrate import Migrate
+
 
 app = Flask(__name__)    
 
@@ -12,6 +14,7 @@ app.config['SECRET_KEY'] = 'key'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes = 10)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+migrate = Migrate(app, db)
 
 @app.route('/')
 def test():
@@ -88,11 +91,11 @@ def labs():
 @app.route('/lecture_notes.html')
 def lecture_notes():
     return render_template('lecture_notes.html')
-
+'''
 @app.route('/feedback.html')
 def feedback():
     return render_template('feedback.html')
-
+'''
 @app.route('/team.html')
 def team():
     return render_template('team.html')
@@ -217,6 +220,85 @@ def update_remark_status():
     
     return jsonify({'success': False, 'message': 'Remark not found'})
 
+@app.route('/feedback.html', methods=['GET'])
+def feedback_form():
+    if 'user_id' not in session:
+        flash('You must be logged in to access this page.', 'error')
+        return redirect('login.html')
+
+    user = Users.query.get(session['user_id'])
+    if user.accType != 'Student':
+        flash('Only students can submit feedback.', 'error')
+        return redirect('index.html')
+
+    instructors = Users.query.filter_by(accType='Instructor').all()
+    return render_template('feedback.html', instructors=instructors, success=False)
+
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    if 'user_id' not in session:
+        return jsonify(success=False, message='You must be logged in to submit feedback.')
+
+    user = Users.query.get(session['user_id'])
+    if user.accType != 'Student':
+        return jsonify(success=False, message='Only students can submit feedback.')
+
+    instructor_id = request.form['instructor']
+    teaching_feedback = request.form['teaching_feedback']
+    teaching_recommendations = request.form['teaching_recommendations']
+    lab_feedback = request.form['lab_feedback']
+    lab_recommendations = request.form['lab_recommendations']
+
+    feedback = Feedback(
+        u_id=instructor_id,
+        teaching_feedback=teaching_feedback,
+        teaching_recommendations=teaching_recommendations,
+        lab_feedback=lab_feedback,
+        lab_recommendations=lab_recommendations
+    )
+    db.session.add(feedback)
+    db.session.commit()
+
+    return jsonify(success=True, message='Feedback submitted successfully.')
+
+@app.route('/view_feedback', methods=['GET'])
+def view_feedback():
+    if 'user_id' not in session:
+        flash('You must be logged in to view feedback.', 'error')
+        return redirect('login.html')
+
+    user = Users.query.get(session['user_id'])
+
+    if user.accType != 'Instructor':
+        flash('Only instructors can view feedback.', 'error')
+        return redirect('index.html')
+
+    feedbacks = Feedback.query.filter_by(u_id=user.u_id).all()
+
+    return render_template('instructor_feedback.html', user=user, feedbacks=feedbacks)
+
+@app.route('/mark_feedback_reviewed', methods=['POST'])
+def mark_feedback_reviewed():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Not logged in'}), 403
+
+    user = Users.query.get(session['user_id'])
+    if user.accType != 'Instructor':
+        return jsonify({'success': False, 'message': 'Unauthorized access'}), 403
+
+    data = request.get_json()
+    feedback_id = data.get('feedback_id')
+
+    feedback = Feedback.query.get(feedback_id)
+
+    if not feedback or feedback.u_id != user.u_id:
+        return jsonify({'success': False, 'message': 'Feedback not found or unauthorized'}), 403
+
+    feedback.reviewed = True
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Feedback marked as reviewed'})
+
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -245,6 +327,7 @@ class Feedback(db.Model):
     teaching_recommendations = db.Column(db.Text, nullable=False)
     lab_feedback = db.Column(db.Text, nullable=False)
     lab_recommendations = db.Column(db.Text, nullable=False)
+    reviewed = db.Column(db.Boolean, default=False)
 
 class Remark(db.Model):
     __tablename__ = 'Remark'

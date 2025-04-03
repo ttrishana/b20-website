@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Grades</title>
+    <title>Instructor Feedback - CSCB20</title>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -41,36 +41,44 @@
             </ul>
         </nav>
     </header>
-    
+
     <header>
-        <h1>Student Grades</h1>
+        <h1>Your Anonymous Student Feedback</h1>
     </header>
 
-    
     <section class="grades-table">
-        <a href="{{ url_for('remark_requests') }}" class="std-btn">View Remark Requests</a>
         <table>
             <thead>
                 <tr>
-                    <th>Student Name</th>
-                    <th>Assignment</th>
-                    <th>Grade (%)</th>
-                    <th>Update Grade</th>
+                    <th>Teaching Feedback</th>
+                    <th>Teaching Recommendations</th>
+                    <th>Lab Feedback</th>
+                    <th>Lab Recommendations</th>
+                    <th>Status</th>
                 </tr>
             </thead>
+            {% if feedbacks %}
             <tbody>
-                {% for grade in grades %}
+                {% for feedback in feedbacks %}
                 <tr>
-                    <td>{{ grade.student.username }}</td>
-                    <td>{{ grade.a_name }}</td>
-                    <td id="grade-{{ grade.u_id }}-{{ grade.a_name }}">{{ grade.percent }}</td>
+                    <td>{{ feedback.teaching_feedback }}</td>
+                    <td>{{ feedback.teaching_recommendations }}</td>
+                    <td>{{ feedback.lab_feedback }}</td>
+                    <td>{{ feedback.lab_recommendations }}</td>
                     <td>
-                        <input type="number" id="new-grade-{{ grade.u_id }}-{{ grade.a_name }}" placeholder="Enter new mark">
-                        <button onclick="updateGrade('{{ grade.u_id }}', '{{ grade.a_name }}')">Update</button>
+                        {% if not feedback.reviewed %}
+                        <button onclick="markReviewed({{ feedback.f_id }})">Mark as Reviewed</button>
+                        {% else %}
+                        <p style="color: green;">Reviewed ✅</p>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
+            {% else %}
+            <p>No feedback available.</p>
+            {% endif %}
+
         </table>
 
         <a href="{{ url_for('index') }}" class="std-btn">Back to Dashboard</a>
@@ -81,31 +89,34 @@
             <p>Site design by Trishana and Hong Yu</p>
             <li><a href="https://web.cs.toronto.edu/">Faculty of Computer Science @ UofT</a></li>
         </div>
-        
-    </footer> 
+    </footer>
 
     <script>
-    function updateGrade(studentId, assignment) {
-        let newGrade = document.getElementById(`new-grade-${studentId}-${assignment}`).value;
+        document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
 
-        fetch('/update_grade', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ student_id: studentId, assignment: assignment, new_grade: newGrade })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                document.getElementById(`grade-${studentId}-${assignment}`).innerText = newGrade;
-                alert("Marks updated successfully!");
-            } else {
-                alert("Failed to update marks.");
-            }
+            let formData = new FormData(this);
+            fetch('/submit_feedback', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show the success message
+                    document.getElementById("successMessage").style.display = "block";
+                    // Optionally, you can reset the form
+                    document.getElementById("feedbackForm").reset();
+                } else {
+                    // Handle error case
+                    alert("Error submitting feedback: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
-    }
     </script>
 
-    
-        
 </body>
 </html>

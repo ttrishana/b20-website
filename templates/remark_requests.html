@@ -7,6 +7,42 @@
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
+
+    <input id="color-mode" type="checkbox" name="color-mode">
+    <label for="color-mode">Switch Modes</label><br>
+
+    <header>
+        <a href="index.html">
+            <img class="logo" src="/static/assets/home.png" alt="logo">
+        </a>
+        <nav>
+            <ul class="nav__links">
+                <li class="dropdown">
+                    <a href="#">Course Information</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="syllabus.html">Syllabus</a></li>
+                        <li><a href="calendar.html">Calendar</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Course Resources</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="assignments.html">Assignments</a></li>
+                        <li><a href="labs.html">Labs</a></li>
+                        <li><a href="lecture_notes.html">Lecture Notes</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a></li>
+                <li><a href="https://markus2.utsc.utoronto.ca">Markus</a></li>
+                <li><a href="feedback.html">Feedback</a></li>
+                <li><a href="team.html">Course Team</a></li>
+
+                <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    
     <section class="grades-table">
     <h1>Remark Requests</h1>
     <table>
@@ -36,6 +72,14 @@
     </table>
     <a href="{{ url_for('view_grades') }}" class="std-btn">Back to Grades</a>
     </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>Site design by Trishana and Hong Yu</p>
+            <li><a href="https://web.cs.toronto.edu/">Faculty of Computer Science @ UofT</a></li>
+        </div>
+        
+    </footer> 
 
     <script>
     function updateRemarkStatus(remarkId, newStatus) {
