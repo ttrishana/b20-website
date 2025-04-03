@@ -33,9 +33,13 @@
                 </li>
                 <li><a href="https://piazza.com/class/m5fmz9kzjo83yk">Piazza</a></li>
                 <li><a href="https://markus2.utsc.utoronto.ca">Markus</a></li>
+                {% if user.accType == "Student" %}
                 <li><a href="feedback.html">Feedback</a></li>
+                {% else %}
+                <li><a href="{{ url_for('view_feedback') }}">Feedback</a></li>
+                {% endif %}
                 <li><a href="team.html">Course Team</a></li>
-
+                
                 <li><a href="{{ url_for('logout') }}" class="logout-btn">Logout</a></li>
                 
             </ul>
@@ -50,7 +54,6 @@
             {% else %}
             <h2>Welcome Instructor {{ user.username }}, click here to see all the grades of your class.</h2>
             <a href="{{ url_for('instructor_grades') }}" class="std-btn">View All Grades</a>
-            <a href="{{ url_for('view_feedback') }}" class="std-btn">View Feedback</a>
             {% endif %}
         </div>
         
