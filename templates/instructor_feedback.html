@@ -65,7 +65,7 @@
                     <td>{{ feedback.teaching_recommendations }}</td>
                     <td>{{ feedback.lab_feedback }}</td>
                     <td>{{ feedback.lab_recommendations }}</td>
-                    <td>
+                    <td id="status-{{ feedback.f_id }}">
                         {% if not feedback.reviewed %}
                         <button onclick="markReviewed({{ feedback.f_id }})">Mark as Reviewed</button>
                         {% else %}
@@ -92,6 +92,23 @@
     </footer>
 
     <script>
+        function markReviewed(feedbackId) {
+            fetch('/mark_feedback_reviewed', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ feedback_id: feedbackId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    let statusCell = document.getElementById(`status-${feedbackId}`);
+                    statusCell.innerHTML = '<p style="color: green;">Reviewed ✅</p>';
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
         document.getElementById("feedbackForm").addEventListener("submit", function(event) {
             event.preventDefault(); // Prevent the form from submitting normally
 
