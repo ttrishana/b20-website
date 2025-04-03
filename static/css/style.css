@@ -41,6 +41,17 @@ li, a {
 header *{
     background-color: #0d2a3a;
 }
+
+.grades-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10%;
+    top: 0; 
+    width: 100%; 
+    background-color: #0d2a3a; 
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -52,6 +63,7 @@ header {
     background-color: #0d2a3a; 
     z-index: 1000; 
 }
+
 
 /* home logo */
 .logo{
@@ -862,3 +874,8 @@ button:hover {
     background-color: #c82333;
 }
 
+p{
+    color:#edf0f1;
+    font-family: "Poppins", sans-serif;
+    padding: 0.5rem;
+}

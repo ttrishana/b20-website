@@ -41,7 +41,7 @@
             </ul>
         </nav>
     </header>
-    
+
     <header>
         <h1>Student Grades</h1>
     </header>
@@ -73,8 +73,28 @@
             </tbody>
         </table>
 
+        <form id="enter-marks-form">
+            <label for="student">Select Student:</label>
+            <select id="student" name="student_id">
+                {% for student in students %}
+                    <option value="{{ student.u_id }}">{{ student.username }}</option>
+                {% endfor %}
+            </select>
+        
+            <label for="assignment">Enter Assignment/Exam:</label>
+            <input type="text" id="assignment" name="assignment" required>
+        
+            <label for="mark">Enter Mark:</label>
+            <input type="number" id="mark" name="new_grade" min="0" max="100" required>
+        
+            <button type="submit">Submit</button>
+        </form>
+        
+        <p id="success-message" style="color: green; display: none;">Marks updated successfully!</p>
+
         <a href="{{ url_for('index') }}" class="std-btn">Back to Dashboard</a>
     </section>
+
 
     <footer>
         <div class="footer-content">
@@ -103,6 +123,49 @@
             }
         });
     }
+    document.getElementById("enter-marks-form").addEventListener("submit", function(event) {
+    event.preventDefault();  // Prevent full page reload
+
+    const student_id = document.getElementById("student").value;
+    const student_name = document.getElementById("student").selectedOptions[0].text;
+    const assignment = document.getElementById("assignment").value;
+    const new_grade = document.getElementById("mark").value;
+
+    fetch("/update_grade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ student_id, assignment, new_grade })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("success-message").style.display = "block";
+
+            // Check if the row already exists
+            let gradeCell = document.getElementById(`grade-${student_id}-${assignment}`);
+            if (gradeCell) {
+                gradeCell.innerText = new_grade;  // Update existing grade in table
+            } else {
+                // Add a new row if it's a new entry
+                let tbody = document.querySelector("tbody");
+                let newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td>${student_name}</td>
+                    <td>${assignment}</td>
+                    <td id="grade-${student_id}-${assignment}">${new_grade}</td>
+                    <td>
+                        <input type="number" id="new-grade-${student_id}-${assignment}" placeholder="Enter new mark">
+                        <button onclick="updateGrade('${student_id}', '${assignment}')">Update</button>
+                    </td>
+                `;
+                tbody.appendChild(newRow);
+            }
+        } else {
+            alert("Error: " + data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+    });
     </script>
 
     

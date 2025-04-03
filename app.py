@@ -91,11 +91,7 @@ def labs():
 @app.route('/lecture_notes.html')
 def lecture_notes():
     return render_template('lecture_notes.html')
-'''
-@app.route('/feedback.html')
-def feedback():
-    return render_template('feedback.html')
-'''
+
 @app.route('/team.html')
 def team():
     return render_template('team.html')
@@ -155,6 +151,10 @@ def instructor_grades():
 
     students = Users.query.filter_by(accType='Student').all()
     grades = Grades.query.all()
+
+    assignments = db.session.query(Grades.a_name).distinct().all()
+    assignments = [a[0] for a in db.session.query(Grades.a_name).distinct().all()]
+
 
     return render_template('grades_instructor.html', user=user, students=students, grades=grades)
 
